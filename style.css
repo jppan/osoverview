@@ -195,6 +195,13 @@ code,
   border-color: color-mix(in srgb, var(--accent) 54%, transparent);
 }
 
+.nav-link.is-disabled {
+  opacity: 0.44;
+  cursor: not-allowed;
+  pointer-events: none;
+  text-decoration: line-through;
+}
+
 .theme-rail-wrap {
   border-bottom: 1px solid color-mix(in srgb, var(--border-strong) 22%, transparent);
   background: color-mix(in srgb, var(--surface-1) 42%, transparent);
@@ -259,6 +266,20 @@ code,
   color: var(--text);
   border-color: color-mix(in srgb, var(--accent) 75%, transparent);
   background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.theme-chip.is-disabled,
+.theme-chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+  filter: grayscale(0.28);
+}
+
+.theme-chip.is-disabled::before,
+.theme-chip:disabled::before {
+  display: none !important;
 }
 
 .theme-chip-rgb {
@@ -976,6 +997,15 @@ body.lost-mode .theme-chip {
   border: 2px solid #000000 !important;
   box-shadow: none !important;
   transform: none !important;
+}
+
+body.lost-mode .nav-link.is-disabled,
+body.lost-mode .theme-chip.is-disabled,
+body.lost-mode .theme-chip:disabled {
+  background: #f1f1f1 !important;
+  color: #6f6f6f !important;
+  border-color: #989898 !important;
+  text-decoration: line-through;
 }
 
 body.lost-mode .theme-chip::before {

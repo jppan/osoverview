@@ -240,6 +240,41 @@ function updateGetsLostModeUi() {
     const label = node.querySelector("[data-lost-label]");
     if (label) label.textContent = getsLostModeEnabled ? "Gets Lost On Me: On" : "Gets Lost On Me";
   });
+  updateTopBarLockState();
+}
+
+function updateTopBarLockState() {
+  const lockTopBar = getsLostModeEnabled;
+
+  document.querySelectorAll(".main-nav .nav-link").forEach((node) => {
+    const href = node.getAttribute("href");
+
+    if (lockTopBar) {
+      if (href && !node.dataset.prevHref) {
+        node.dataset.prevHref = href;
+      }
+      node.removeAttribute("href");
+      node.setAttribute("aria-disabled", "true");
+      node.setAttribute("tabindex", "-1");
+      node.classList.add("is-disabled");
+      return;
+    }
+
+    if (node.dataset.prevHref) {
+      node.setAttribute("href", node.dataset.prevHref);
+      delete node.dataset.prevHref;
+    }
+    node.removeAttribute("aria-disabled");
+    node.removeAttribute("tabindex");
+    node.classList.remove("is-disabled");
+  });
+
+  document.querySelectorAll(".theme-rail .theme-chip").forEach((node) => {
+    if (node.hasAttribute("data-lost-toggle")) return;
+    node.disabled = lockTopBar;
+    node.classList.toggle("is-disabled", lockTopBar);
+    node.setAttribute("aria-disabled", lockTopBar ? "true" : "false");
+  });
 }
 
 function setGetsLostMode(enabled, options = {}) {
