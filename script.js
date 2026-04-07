@@ -109,9 +109,10 @@ const THEME_ALIASES = {
 const RGB_MODE_KEY = "jpOSh-rgb-mode";
 const RGB_CYCLE_MS = 2200;
 const RGB_AUDIO_SRC = "assets/audio/afraid-to-feel.mp3";
-const CONFETTI_TICK_MS = 120;
-const CONFETTI_BATCH_MIN = 7;
-const CONFETTI_BATCH_MAX = 13;
+const CONFETTI_TICK_MS = 220;
+const CONFETTI_BATCH_MIN = 2;
+const CONFETTI_BATCH_MAX = 5;
+const CONFETTI_MAX_ACTIVE = 64;
 const CONFETTI_COLORS = [
   "#ff6b6b",
   "#ffd93d",
@@ -282,8 +283,13 @@ function randomInRange(min, max) {
 function spawnConfetti(batchCount) {
   if (!rgbEnabled || reducedMotionQuery.matches) return;
   const layer = ensureConfettiLayer();
+  const activeCount = layer.childElementCount;
+  if (activeCount >= CONFETTI_MAX_ACTIVE) return;
 
-  for (let i = 0; i < batchCount; i += 1) {
+  const allowedCount = Math.min(batchCount, CONFETTI_MAX_ACTIVE - activeCount);
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < allowedCount; i += 1) {
     const piece = document.createElement("span");
     piece.className = "rgb-confetti-piece";
 
@@ -302,8 +308,10 @@ function spawnConfetti(batchCount) {
     piece.style.setProperty("--confetti", hue);
 
     piece.addEventListener("animationend", () => piece.remove(), { once: true });
-    layer.appendChild(piece);
+    fragment.appendChild(piece);
   }
+
+  layer.appendChild(fragment);
 }
 
 function stopConfetti() {
@@ -323,7 +331,7 @@ function startConfetti() {
 
   const layer = ensureConfettiLayer();
   layer.classList.add("active");
-  spawnConfetti(28);
+  spawnConfetti(18);
 
   confettiIntervalId = setInterval(() => {
     const count = Math.floor(randomInRange(CONFETTI_BATCH_MIN, CONFETTI_BATCH_MAX));
@@ -514,6 +522,21 @@ function hydrate() {
   } else if (typeof reducedMotionQuery.addListener === "function") {
     reducedMotionQuery.addListener(onMotionChange);
   }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopRgbCycle();
+      stopConfetti();
+      pauseRgbAudio();
+      return;
+    }
+
+    if (rgbEnabled) {
+      startRgbCycle();
+      startConfetti();
+      playRgbAudio();
+    }
+  });
 }
 
 hydrate();
