@@ -107,7 +107,6 @@ const THEME_ALIASES = {
 };
 
 const RGB_MODE_KEY = "jpOSh-rgb-mode";
-const GETS_LOST_MODE_KEY = "jpOSh-gets-lost-mode";
 const RGB_CYCLE_MS = 2200;
 const RGB_AUDIO_SRC = "assets/audio/afraid-to-feel.mp3";
 const CONFETTI_TICK_MS = 220;
@@ -124,7 +123,6 @@ const CONFETTI_COLORS = [
 ];
 
 let rgbEnabled = false;
-let getsLostModeEnabled = false;
 let rgbIntervalId = null;
 let rgbIndex = 0;
 let confettiLayer = null;
@@ -230,28 +228,6 @@ function updateRgbUi() {
     const label = node.querySelector("[data-rgb-label]");
     if (label) label.textContent = rgbEnabled ? "RGB On" : "RGB";
   });
-}
-
-function updateGetsLostModeUi() {
-  document.body.classList.toggle("gets-lost-mode", getsLostModeEnabled);
-  document.querySelectorAll("[data-glom-toggle]").forEach((input) => {
-    input.checked = getsLostModeEnabled;
-  });
-}
-
-function setGetsLostMode(enabled, options = {}) {
-  const save = options.save !== false;
-  getsLostModeEnabled = enabled;
-  if (save) {
-    localStorage.setItem(GETS_LOST_MODE_KEY, getsLostModeEnabled ? "on" : "off");
-  }
-
-  // Keep this mode intentionally simple and low-noise.
-  if (getsLostModeEnabled && rgbEnabled) {
-    setRgbMode(false, { save: false });
-  }
-
-  updateGetsLostModeUi();
 }
 
 function ensureRgbAudio() {
@@ -408,19 +384,6 @@ function renderThemeRail() {
   document.querySelectorAll("[data-theme-rail]").forEach((container) => {
     container.innerHTML = "";
 
-    const getsLostWrap = document.createElement("label");
-    getsLostWrap.className = "mode-switch";
-    getsLostWrap.innerHTML = `
-      <input type="checkbox" data-glom-toggle />
-      <span class="mode-switch-slider" aria-hidden="true"></span>
-      <span class="mode-switch-text">Gets Lost On Me Mode</span>
-    `;
-    const getsLostInput = getsLostWrap.querySelector("input[data-glom-toggle]");
-    getsLostInput.addEventListener("change", (event) => {
-      setGetsLostMode(event.target.checked);
-    });
-    container.appendChild(getsLostWrap);
-
     const rgbButton = document.createElement("button");
     rgbButton.type = "button";
     rgbButton.className = "theme-chip theme-chip-rgb";
@@ -543,11 +506,8 @@ function hydrate() {
   const saved = localStorage.getItem("jpOSh-theme");
   applyTheme(normalizeThemeName(saved));
 
-  const savedGetsLost = localStorage.getItem(GETS_LOST_MODE_KEY) === "on";
-  setGetsLostMode(savedGetsLost, { save: false });
-
   const savedRgb = localStorage.getItem(RGB_MODE_KEY) === "on";
-  setRgbMode(savedGetsLost ? false : savedRgb, { save: false });
+  setRgbMode(savedRgb, { save: false });
 
   const onMotionChange = () => {
     if (reducedMotionQuery.matches) {
