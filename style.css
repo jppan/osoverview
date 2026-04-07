@@ -268,6 +268,40 @@ code,
     color-mix(in srgb, var(--surface-2) 76%, transparent);
 }
 
+.theme-chip-lost {
+  padding-left: 0.42rem;
+}
+
+.lost-switch {
+  width: 1.8rem;
+  height: 1rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 38%, transparent);
+  background: color-mix(in srgb, var(--surface-1) 84%, transparent);
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.lost-switch-knob {
+  width: 0.72rem;
+  height: 0.72rem;
+  margin-left: 0.13rem;
+  border-radius: 999px;
+  background: var(--text-dim);
+  transition: transform 170ms ease, background-color 170ms ease;
+}
+
+.theme-chip-lost.active .lost-switch {
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+.theme-chip-lost.active .lost-switch-knob {
+  transform: translateX(0.75rem);
+  background: var(--text);
+}
+
 .rgb-dot {
   background: linear-gradient(120deg, #ff6b6b, #ffd93d, #6bff9f, #6bd4ff, #b98bff, #ff7adf);
   background-size: 260% 260%;
@@ -873,6 +907,174 @@ footer {
 
 .footer-path {
   color: var(--text-mute);
+}
+
+body.lost-mode {
+  background: #ffffff !important;
+  color: #000000 !important;
+  font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Marker Felt", cursive;
+  line-height: 1.72;
+}
+
+body.lost-mode::before,
+body.lost-mode::after {
+  display: none !important;
+}
+
+body.lost-mode .site-header,
+body.lost-mode .theme-rail-wrap,
+body.lost-mode .hero,
+body.lost-mode .panel,
+body.lost-mode .kpi,
+body.lost-mode .list-item,
+body.lost-mode .tag,
+body.lost-mode .theme-card,
+body.lost-mode .table th,
+body.lost-mode .table td,
+body.lost-mode footer {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+body.lost-mode .hero,
+body.lost-mode .panel,
+body.lost-mode .kpi,
+body.lost-mode .list-item,
+body.lost-mode .tag,
+body.lost-mode .theme-card {
+  border-width: 2px !important;
+  border-style: solid !important;
+}
+
+body.lost-mode .hero::before,
+body.lost-mode .hero::after,
+body.lost-mode .panel::before,
+body.lost-mode .panel::after,
+body.lost-mode .list-item::before,
+body.lost-mode .tag::before {
+  display: none !important;
+}
+
+body.lost-mode .brand-mark {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+body.lost-mode .brand-sub {
+  display: none;
+}
+
+body.lost-mode .nav-link,
+body.lost-mode .theme-chip {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+body.lost-mode .theme-chip::before {
+  display: none !important;
+}
+
+body.lost-mode .nav-link.active,
+body.lost-mode .theme-chip.active {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+body.lost-mode .theme-chip-lost.active {
+  background: #ffe65a !important;
+  color: #000000 !important;
+}
+
+body.lost-mode .theme-chip-lost.active .lost-switch {
+  border-color: #000000 !important;
+  background: #ffffff !important;
+}
+
+body.lost-mode .theme-chip-lost.active .lost-switch-knob {
+  background: #000000 !important;
+}
+
+body.lost-mode .page {
+  max-width: 920px;
+  gap: 1.2rem;
+  padding: 1.3rem 1rem 2.3rem;
+}
+
+body.lost-mode .hero-title {
+  font-size: clamp(1.65rem, 5vw, 2.4rem);
+  line-height: 1.25;
+}
+
+body.lost-mode .pill {
+  background: #ffe65a !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  letter-spacing: 0;
+  font-size: 0.86rem;
+}
+
+body.lost-mode .section-title {
+  background: none !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: currentColor;
+}
+
+body.lost-mode .section-sub,
+body.lost-mode .panel-desc,
+body.lost-mode .timeline-desc,
+body.lost-mode .theme-source,
+body.lost-mode .footer-path,
+body.lost-mode .list-item-value {
+  color: #000000 !important;
+}
+
+body.lost-mode .kpi-grid,
+body.lost-mode .panel-grid,
+body.lost-mode .theme-catalog {
+  grid-template-columns: 1fr;
+}
+
+body.lost-mode .list-item {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+body.lost-mode .list-item-value {
+  text-align: left;
+}
+
+body.lost-mode .timeline-item {
+  padding-left: 0;
+}
+
+body.lost-mode .timeline-item::before {
+  display: none;
+}
+
+body.lost-mode .mono,
+body.lost-mode code,
+body.lost-mode .kbd {
+  font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Marker Felt", cursive;
+}
+
+body.lost-mode [data-animate],
+body.lost-mode [data-animate].show {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+body.lost-mode .rgb-confetti-layer {
+  display: none !important;
 }
 
 [data-animate] {

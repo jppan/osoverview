@@ -107,6 +107,7 @@ const THEME_ALIASES = {
 };
 
 const RGB_MODE_KEY = "jpOSh-rgb-mode";
+const GETS_LOST_MODE_KEY = "jpOSh-gets-lost-mode";
 const RGB_CYCLE_MS = 2200;
 const RGB_AUDIO_SRC = "assets/audio/afraid-to-feel.mp3";
 const CONFETTI_TICK_MS = 220;
@@ -129,6 +130,7 @@ let confettiLayer = null;
 let confettiIntervalId = null;
 let rgbAudio = null;
 let rgbAudioUnlockBound = false;
+let getsLostModeEnabled = false;
 
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -228,6 +230,40 @@ function updateRgbUi() {
     const label = node.querySelector("[data-rgb-label]");
     if (label) label.textContent = rgbEnabled ? "RGB On" : "RGB";
   });
+}
+
+function updateGetsLostModeUi() {
+  document.body.classList.toggle("lost-mode", getsLostModeEnabled);
+  document.querySelectorAll("[data-lost-toggle]").forEach((node) => {
+    node.classList.toggle("active", getsLostModeEnabled);
+    node.setAttribute("aria-pressed", getsLostModeEnabled ? "true" : "false");
+    const label = node.querySelector("[data-lost-label]");
+    if (label) label.textContent = getsLostModeEnabled ? "Gets Lost On Me: On" : "Gets Lost On Me";
+  });
+}
+
+function setGetsLostMode(enabled, options = {}) {
+  const save = options.save !== false;
+  const force = options.force === true;
+  const next = enabled === true;
+
+  if (!force && next === getsLostModeEnabled) {
+    updateGetsLostModeUi();
+    return;
+  }
+
+  getsLostModeEnabled = next;
+
+  // This mode intentionally strips visual/theming complexity.
+  if (getsLostModeEnabled && rgbEnabled) {
+    setRgbMode(false);
+  }
+
+  if (save) {
+    localStorage.setItem(GETS_LOST_MODE_KEY, getsLostModeEnabled ? "on" : "off");
+  }
+
+  updateGetsLostModeUi();
 }
 
 function ensureRgbAudio() {
@@ -384,6 +420,20 @@ function renderThemeRail() {
   document.querySelectorAll("[data-theme-rail]").forEach((container) => {
     container.innerHTML = "";
 
+    const getsLostButton = document.createElement("button");
+    getsLostButton.type = "button";
+    getsLostButton.className = "theme-chip theme-chip-lost";
+    getsLostButton.dataset.lostToggle = "true";
+    getsLostButton.setAttribute("aria-pressed", "false");
+    getsLostButton.innerHTML = `
+      <span class="lost-switch" aria-hidden="true">
+        <span class="lost-switch-knob"></span>
+      </span>
+      <span data-lost-label>Gets Lost On Me</span>
+    `;
+    getsLostButton.addEventListener("click", () => setGetsLostMode(!getsLostModeEnabled));
+    container.appendChild(getsLostButton);
+
     const rgbButton = document.createElement("button");
     rgbButton.type = "button";
     rgbButton.className = "theme-chip theme-chip-rgb";
@@ -508,6 +558,8 @@ function hydrate() {
 
   const savedRgb = localStorage.getItem(RGB_MODE_KEY) === "on";
   setRgbMode(savedRgb, { save: false });
+  const savedGetsLostMode = localStorage.getItem(GETS_LOST_MODE_KEY) === "on";
+  setGetsLostMode(savedGetsLostMode, { save: false, force: true });
 
   const onMotionChange = () => {
     if (reducedMotionQuery.matches) {
