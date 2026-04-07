@@ -123,6 +123,45 @@ const CONFETTI_COLORS = [
   "#ff7adf",
 ];
 
+const LOST_MODE_SUMMARY = {
+  overview: {
+    title: "Simple Overview",
+    text: "This site tracks your desktop setup in one place.",
+    highlights: [
+      "Themes apply across the whole site.",
+      "RGB mode can auto-cycle themes.",
+      "Automation scripts manage display and power behavior.",
+    ],
+  },
+  themes: {
+    title: "Simple Themes",
+    text: "Theme colors are pulled from your real palette files.",
+    highlights: [
+      "8 themes available.",
+      "One click applies a theme globally.",
+      "Previews mirror your real desktop looks.",
+    ],
+  },
+  automation: {
+    title: "Simple Automation",
+    text: "Core scripts keep your session stable and fast.",
+    highlights: [
+      "Display and monitor policy scripts are active.",
+      "Power/performance scripts coordinate system behavior.",
+      "GPU and post-sleep handling are included.",
+    ],
+  },
+  workspace: {
+    title: "Simple Workspace",
+    text: "Your workflow is grouped for quick daily use.",
+    highlights: [
+      "Main launch paths are mapped clearly.",
+      "Hardware profile and keybind surfaces are documented.",
+      "Dev, communication, media, and gaming are covered.",
+    ],
+  },
+};
+
 let rgbEnabled = false;
 let rgbIntervalId = null;
 let rgbIndex = 0;
@@ -577,9 +616,37 @@ function syncStaticThemeButtons() {
   });
 }
 
+function renderLostModeSummary() {
+  const page = document.body.dataset.page || "overview";
+  const data = LOST_MODE_SUMMARY[page] || LOST_MODE_SUMMARY.overview;
+  const root = document.querySelector("main.page");
+  if (!root) return;
+
+  let section = root.querySelector("[data-lost-summary]");
+  if (!section) {
+    section = document.createElement("section");
+    section.className = "lost-summary";
+    section.dataset.lostSummary = "true";
+    root.prepend(section);
+  }
+
+  const items = data.highlights
+    .map((line) => `<li class="lost-summary-item">${line}</li>`)
+    .join("");
+
+  section.innerHTML = `
+    <p class="lost-summary-pill">Simple Mode</p>
+    <h2 class="lost-summary-title">${data.title}</h2>
+    <p class="lost-summary-text">${data.text}</p>
+    <ul class="lost-summary-list">${items}</ul>
+    <p class="lost-summary-note">Turn off Gets Lost On Me to return to the full site.</p>
+  `;
+}
+
 function hydrate() {
   renderThemeRail();
   renderThemeCatalog();
+  renderLostModeSummary();
   syncStaticThemeButtons();
   setupNavActiveState();
   setupAnimationObserver();
