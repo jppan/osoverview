@@ -108,6 +108,7 @@ const THEME_ALIASES = {
 
 const RGB_MODE_KEY = "jpOSh-rgb-mode";
 const RGB_CYCLE_MS = 2200;
+const RGB_AUDIO_SRC = "assets/audio/afraid-to-feel.aiff";
 const CONFETTI_TICK_MS = 120;
 const CONFETTI_BATCH_MIN = 7;
 const CONFETTI_BATCH_MAX = 13;
@@ -125,6 +126,8 @@ let rgbIntervalId = null;
 let rgbIndex = 0;
 let confettiLayer = null;
 let confettiIntervalId = null;
+let rgbAudio = null;
+let rgbAudioUnlockBound = false;
 
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -226,6 +229,43 @@ function updateRgbUi() {
   });
 }
 
+function ensureRgbAudio() {
+  if (rgbAudio) return rgbAudio;
+  rgbAudio = new Audio(RGB_AUDIO_SRC);
+  rgbAudio.preload = "auto";
+  rgbAudio.loop = true;
+  rgbAudio.volume = 0.94;
+  return rgbAudio;
+}
+
+function scheduleRgbAudioUnlockAttempt() {
+  if (rgbAudioUnlockBound) return;
+  rgbAudioUnlockBound = true;
+
+  const unlockAttempt = () => {
+    rgbAudioUnlockBound = false;
+    if (rgbEnabled) playRgbAudio();
+  };
+
+  window.addEventListener("pointerdown", unlockAttempt, { once: true });
+  window.addEventListener("keydown", unlockAttempt, { once: true });
+}
+
+function playRgbAudio() {
+  const audio = ensureRgbAudio();
+  const promise = audio.play();
+  if (promise && typeof promise.catch === "function") {
+    promise.catch(() => {
+      scheduleRgbAudioUnlockAttempt();
+    });
+  }
+}
+
+function pauseRgbAudio() {
+  if (!rgbAudio) return;
+  rgbAudio.pause();
+}
+
 function ensureConfettiLayer() {
   if (confettiLayer && document.body.contains(confettiLayer)) return confettiLayer;
   confettiLayer = document.createElement("div");
@@ -320,9 +360,11 @@ function setRgbMode(enabled, options = {}) {
     rgbIndex = idx >= 0 ? idx : 0;
     startRgbCycle();
     startConfetti();
+    playRgbAudio();
   } else {
     stopRgbCycle();
     stopConfetti();
+    pauseRgbAudio();
     const activeKey = normalizeThemeName(document.body.dataset.activeTheme);
     localStorage.setItem("jpOSh-theme", activeKey);
   }
