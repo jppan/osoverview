@@ -245,6 +245,12 @@ function setGetsLostMode(enabled, options = {}) {
   if (save) {
     localStorage.setItem(GETS_LOST_MODE_KEY, getsLostModeEnabled ? "on" : "off");
   }
+
+  // Keep this mode intentionally simple and low-noise.
+  if (getsLostModeEnabled && rgbEnabled) {
+    setRgbMode(false, { save: false });
+  }
+
   updateGetsLostModeUi();
 }
 
@@ -541,7 +547,7 @@ function hydrate() {
   setGetsLostMode(savedGetsLost, { save: false });
 
   const savedRgb = localStorage.getItem(RGB_MODE_KEY) === "on";
-  setRgbMode(savedRgb, { save: false });
+  setRgbMode(savedGetsLost ? false : savedRgb, { save: false });
 
   const onMotionChange = () => {
     if (reducedMotionQuery.matches) {

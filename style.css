@@ -432,6 +432,152 @@ body.rgb-mode .theme-chip-rgb {
   padding-bottom: 0.68rem;
 }
 
+body.gets-lost-mode {
+  font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Bradley Hand", cursive !important;
+  background: #ffffff !important;
+  color: #111111 !important;
+  line-height: 1.9 !important;
+}
+
+body.gets-lost-mode::before,
+body.gets-lost-mode::after {
+  display: none !important;
+}
+
+body.gets-lost-mode * {
+  animation: none !important;
+  transition: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  border-radius: 0 !important;
+}
+
+body.gets-lost-mode .site-header,
+body.gets-lost-mode .theme-rail-wrap {
+  background: #fff200 !important;
+  border-color: #111111 !important;
+  border-bottom-width: 3px !important;
+}
+
+body.gets-lost-mode .brand-title,
+body.gets-lost-mode .brand-sub,
+body.gets-lost-mode .section-title,
+body.gets-lost-mode .section-sub,
+body.gets-lost-mode .panel-title,
+body.gets-lost-mode .list-item-key,
+body.gets-lost-mode .list-item-value,
+body.gets-lost-mode .timeline-title,
+body.gets-lost-mode .timeline-desc,
+body.gets-lost-mode .hero-title,
+body.gets-lost-mode .hero-subtitle,
+body.gets-lost-mode .nav-link,
+body.gets-lost-mode .mode-switch-text {
+  color: #111111 !important;
+  background: none !important;
+}
+
+body.gets-lost-mode .page {
+  max-width: 860px !important;
+  padding: 1rem 0.9rem 2.2rem !important;
+  gap: 1.2rem !important;
+}
+
+body.gets-lost-mode .hero,
+body.gets-lost-mode .panel,
+body.gets-lost-mode .theme-card,
+body.gets-lost-mode .kpi {
+  border: 3px solid #111111 !important;
+  background: #ffffff !important;
+}
+
+body.gets-lost-mode .hero {
+  padding: 0.9rem !important;
+}
+
+body.gets-lost-mode .hero-title {
+  font-size: 2rem !important;
+  line-height: 1.15 !important;
+  text-transform: uppercase !important;
+}
+
+body.gets-lost-mode .mode-switch {
+  background: #111111 !important;
+  border: 2px solid #111111 !important;
+  padding: 0.45rem 0.6rem !important;
+}
+
+body.gets-lost-mode .mode-switch-text {
+  color: #ffffff !important;
+  font-size: 0.8rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
+}
+
+body.gets-lost-mode .mode-switch-slider {
+  background: #666666 !important;
+  border-color: #ffffff !important;
+}
+
+body.gets-lost-mode .mode-switch input:checked + .mode-switch-slider {
+  background: #26ff58 !important;
+  border-color: #ffffff !important;
+}
+
+body.gets-lost-mode .theme-chip,
+body.gets-lost-mode .theme-chip-rgb,
+body.gets-lost-mode .kpi-grid,
+body.gets-lost-mode .panel-grid,
+body.gets-lost-mode .list,
+body.gets-lost-mode .timeline,
+body.gets-lost-mode .tag-row,
+body.gets-lost-mode .table,
+body.gets-lost-mode #theme-catalog,
+body.gets-lost-mode .rgb-confetti-layer {
+  display: none !important;
+}
+
+body.gets-lost-mode .site-shell main section:not(.visual-aid) {
+  border: 2px dashed #111111 !important;
+  padding: 0.7rem !important;
+  background: #ffffff !important;
+}
+
+body.gets-lost-mode .section-title {
+  font-size: 1.45rem !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  line-height: 1.2 !important;
+}
+
+body.gets-lost-mode .visual-aid {
+  display: grid !important;
+}
+
+body.gets-lost-mode .visual-aid-grid {
+  grid-template-columns: 1fr !important;
+  gap: 0.75rem !important;
+}
+
+body.gets-lost-mode .visual-aid-card {
+  border: 3px solid #111111 !important;
+  background: #ffffff !important;
+}
+
+body.gets-lost-mode .visual-aid-card img {
+  height: 240px !important;
+  object-fit: cover !important;
+}
+
+body.gets-lost-mode .visual-aid-caption {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  line-height: 1.5 !important;
+  padding: 0.8rem !important;
+}
+
 .page {
   max-width: 1160px;
   margin: 0 auto;
