@@ -110,6 +110,8 @@ const RGB_MODE_KEY = "jpOSh-rgb-mode";
 const GETS_LOST_MODE_KEY = "jpOSh-gets-lost-mode";
 const RGB_CYCLE_MS = 2200;
 const RGB_AUDIO_SRC = "assets/audio/afraid-to-feel.mp3";
+const WHERES_CAPTCHA_PATH = "wheres-captcha/index.html";
+const WHERES_CAPTCHA_SUCCESS_EVENT = "wheresCaptcha:success";
 const CONFETTI_TICK_MS = 220;
 const CONFETTI_BATCH_MIN = 2;
 const CONFETTI_BATCH_MAX = 5;
@@ -170,6 +172,10 @@ let confettiIntervalId = null;
 let rgbAudio = null;
 let rgbAudioUnlockBound = false;
 let getsLostModeEnabled = false;
+let captchaGateRoot = null;
+let captchaGateFrame = null;
+let captchaGateResolver = null;
+let captchaGateActive = false;
 
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -340,6 +346,82 @@ function setGetsLostMode(enabled, options = {}) {
   updateGetsLostModeUi();
 }
 
+function closeCaptchaGate(passed) {
+  if (!captchaGateRoot || !captchaGateActive) return;
+
+  captchaGateActive = false;
+  captchaGateRoot.hidden = true;
+  document.body.classList.remove("captcha-open");
+  if (captchaGateFrame) captchaGateFrame.removeAttribute("src");
+
+  const resolver = captchaGateResolver;
+  captchaGateResolver = null;
+  if (resolver) resolver(passed === true);
+}
+
+function ensureCaptchaGate() {
+  if (captchaGateRoot && document.body.contains(captchaGateRoot)) return captchaGateRoot;
+
+  const root = document.createElement("div");
+  root.className = "captcha-gate";
+  root.hidden = true;
+  root.innerHTML = `
+    <div class="captcha-gate-backdrop" data-captcha-dismiss></div>
+    <div class="captcha-gate-dialog" role="dialog" aria-modal="true" aria-labelledby="captcha-gate-title">
+      <div class="captcha-gate-head">
+        <p class="captcha-gate-title" id="captcha-gate-title">Complete where'sCAPTCHA to enable Gets Lost On Me mode</p>
+        <button type="button" class="captcha-gate-close" data-captcha-dismiss>Cancel</button>
+      </div>
+      <iframe
+        class="captcha-gate-frame"
+        data-captcha-frame
+        title="where'sCAPTCHA verification challenge"
+        loading="eager"
+      ></iframe>
+    </div>
+  `;
+
+  root.querySelectorAll("[data-captcha-dismiss]").forEach((node) => {
+    node.addEventListener("click", () => closeCaptchaGate(false));
+  });
+
+  document.body.appendChild(root);
+  captchaGateRoot = root;
+  captchaGateFrame = root.querySelector("[data-captcha-frame]");
+  return root;
+}
+
+function openCaptchaGate() {
+  ensureCaptchaGate();
+  if (captchaGateActive) return Promise.resolve(false);
+
+  captchaGateActive = true;
+  captchaGateRoot.hidden = false;
+  document.body.classList.add("captcha-open");
+  captchaGateFrame.src = `${WHERES_CAPTCHA_PATH}?v=${Date.now()}`;
+
+  return new Promise((resolve) => {
+    captchaGateResolver = resolve;
+  });
+}
+
+function handleCaptchaGateMessage(event) {
+  if (!captchaGateActive) return;
+  if (event.origin !== window.location.origin) return;
+  if (!captchaGateFrame || event.source !== captchaGateFrame.contentWindow) return;
+
+  const payload = event.data;
+  if (payload && payload.type === WHERES_CAPTCHA_SUCCESS_EVENT) {
+    closeCaptchaGate(true);
+  }
+}
+
+function handleCaptchaGateEscape(event) {
+  if (!captchaGateActive) return;
+  if (event.key !== "Escape") return;
+  closeCaptchaGate(false);
+}
+
 function ensureRgbAudio() {
   if (rgbAudio) return rgbAudio;
   rgbAudio = new Audio(RGB_AUDIO_SRC);
@@ -505,7 +587,19 @@ function renderThemeRail() {
       </span>
       <span data-lost-label>Gets Lost On Me</span>
     `;
-    getsLostButton.addEventListener("click", () => setGetsLostMode(!getsLostModeEnabled));
+    getsLostButton.addEventListener("click", async () => {
+      if (getsLostModeEnabled) {
+        setGetsLostMode(false);
+        return;
+      }
+
+      getsLostButton.disabled = true;
+      const verified = await openCaptchaGate();
+      getsLostButton.disabled = false;
+      if (verified) {
+        setGetsLostMode(true);
+      }
+    });
     container.appendChild(getsLostButton);
 
     const rgbButton = document.createElement("button");
@@ -662,6 +756,9 @@ function hydrate() {
   setRgbMode(savedRgb, { save: false });
   const savedGetsLostMode = localStorage.getItem(GETS_LOST_MODE_KEY) === "on";
   setGetsLostMode(savedGetsLostMode, { save: false, force: true });
+
+  window.addEventListener("message", handleCaptchaGateMessage);
+  document.addEventListener("keydown", handleCaptchaGateEscape);
 
   const onMotionChange = () => {
     if (reducedMotionQuery.matches) {
