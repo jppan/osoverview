@@ -294,6 +294,34 @@ body.rgb-mode .theme-chip-rgb {
   animation: rgbButtonPulse 1.6s ease-in-out infinite;
 }
 
+.rgb-confetti-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.rgb-confetti-layer.active {
+  opacity: 1;
+}
+
+.rgb-confetti-piece {
+  position: absolute;
+  left: var(--left);
+  top: -14vh;
+  width: var(--size);
+  height: calc(var(--size) * 0.62);
+  background: var(--confetti);
+  border-radius: 2px;
+  opacity: 0;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--confetti) 62%, transparent);
+  transform: translate3d(0, -12vh, 0) rotate(var(--rot));
+  animation: confettiFall var(--dur) linear forwards;
+}
+
 .theme-dot {
   width: 0.72rem;
   height: 0.72rem;
@@ -903,6 +931,27 @@ footer {
   50% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 48%, transparent), 0 0 28px color-mix(in srgb, var(--accent) 45%, transparent); }
 }
 
+@keyframes confettiFall {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(var(--rot));
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.98;
+  }
+  38% {
+    transform: translate3d(calc(var(--drift) * -0.34), 34vh, 0) rotate(calc(var(--rot) + 180deg));
+  }
+  72% {
+    transform: translate3d(calc(var(--drift) * 0.85), 76vh, 0) rotate(calc(var(--rot) + 460deg));
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(var(--drift), 112vh, 0) rotate(calc(var(--rot) + 700deg));
+    opacity: 0;
+  }
+}
+
 @keyframes heroSweep {
   0% { transform: translateX(-12%) rotate(0deg); opacity: 0.36; }
   50% { transform: translateX(10%) rotate(2deg); opacity: 0.5; }
@@ -930,6 +979,10 @@ footer {
   *::after {
     animation: none !important;
     transition: none !important;
+  }
+
+  .rgb-confetti-layer {
+    display: none !important;
   }
 }
 

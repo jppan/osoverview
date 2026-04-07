@@ -108,10 +108,25 @@ const THEME_ALIASES = {
 
 const RGB_MODE_KEY = "jpOSh-rgb-mode";
 const RGB_CYCLE_MS = 2200;
+const CONFETTI_TICK_MS = 120;
+const CONFETTI_BATCH_MIN = 7;
+const CONFETTI_BATCH_MAX = 13;
+const CONFETTI_COLORS = [
+  "#ff6b6b",
+  "#ffd93d",
+  "#6bff9f",
+  "#6bd4ff",
+  "#b98bff",
+  "#ff7adf",
+];
 
 let rgbEnabled = false;
 let rgbIntervalId = null;
 let rgbIndex = 0;
+let confettiLayer = null;
+let confettiIntervalId = null;
+
+const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 function hexToRgb(hex) {
   const normalized = hex.replace("#", "").trim();
@@ -211,6 +226,71 @@ function updateRgbUi() {
   });
 }
 
+function ensureConfettiLayer() {
+  if (confettiLayer && document.body.contains(confettiLayer)) return confettiLayer;
+  confettiLayer = document.createElement("div");
+  confettiLayer.className = "rgb-confetti-layer";
+  confettiLayer.setAttribute("aria-hidden", "true");
+  document.body.appendChild(confettiLayer);
+  return confettiLayer;
+}
+
+function randomInRange(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function spawnConfetti(batchCount) {
+  if (!rgbEnabled || reducedMotionQuery.matches) return;
+  const layer = ensureConfettiLayer();
+
+  for (let i = 0; i < batchCount; i += 1) {
+    const piece = document.createElement("span");
+    piece.className = "rgb-confetti-piece";
+
+    const left = randomInRange(-5, 105);
+    const size = randomInRange(6, 13);
+    const duration = randomInRange(2200, 4200);
+    const drift = randomInRange(-90, 90);
+    const rotate = randomInRange(-60, 60);
+    const hue = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+
+    piece.style.setProperty("--left", `${left}%`);
+    piece.style.setProperty("--size", `${size}px`);
+    piece.style.setProperty("--dur", `${duration}ms`);
+    piece.style.setProperty("--drift", `${drift}px`);
+    piece.style.setProperty("--rot", `${rotate}deg`);
+    piece.style.setProperty("--confetti", hue);
+
+    piece.addEventListener("animationend", () => piece.remove(), { once: true });
+    layer.appendChild(piece);
+  }
+}
+
+function stopConfetti() {
+  if (confettiIntervalId) {
+    clearInterval(confettiIntervalId);
+    confettiIntervalId = null;
+  }
+  if (confettiLayer) {
+    confettiLayer.classList.remove("active");
+    confettiLayer.replaceChildren();
+  }
+}
+
+function startConfetti() {
+  stopConfetti();
+  if (reducedMotionQuery.matches) return;
+
+  const layer = ensureConfettiLayer();
+  layer.classList.add("active");
+  spawnConfetti(28);
+
+  confettiIntervalId = setInterval(() => {
+    const count = Math.floor(randomInRange(CONFETTI_BATCH_MIN, CONFETTI_BATCH_MAX));
+    spawnConfetti(count);
+  }, CONFETTI_TICK_MS);
+}
+
 function stopRgbCycle() {
   if (rgbIntervalId) {
     clearInterval(rgbIntervalId);
@@ -239,8 +319,10 @@ function setRgbMode(enabled, options = {}) {
     const idx = THEME_ORDER.indexOf(activeKey);
     rgbIndex = idx >= 0 ? idx : 0;
     startRgbCycle();
+    startConfetti();
   } else {
     stopRgbCycle();
+    stopConfetti();
     const activeKey = normalizeThemeName(document.body.dataset.activeTheme);
     localStorage.setItem("jpOSh-theme", activeKey);
   }
@@ -376,6 +458,20 @@ function hydrate() {
 
   const savedRgb = localStorage.getItem(RGB_MODE_KEY) === "on";
   setRgbMode(savedRgb, { save: false });
+
+  const onMotionChange = () => {
+    if (reducedMotionQuery.matches) {
+      stopConfetti();
+      return;
+    }
+    if (rgbEnabled) startConfetti();
+  };
+
+  if (typeof reducedMotionQuery.addEventListener === "function") {
+    reducedMotionQuery.addEventListener("change", onMotionChange);
+  } else if (typeof reducedMotionQuery.addListener === "function") {
+    reducedMotionQuery.addListener(onMotionChange);
+  }
 }
 
 hydrate();
