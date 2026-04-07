@@ -108,7 +108,7 @@ const THEME_ALIASES = {
 
 const RGB_MODE_KEY = "jpOSh-rgb-mode";
 const RGB_CYCLE_MS = 2200;
-const RGB_AUDIO_SRC = "assets/audio/afraid-to-feel.aiff";
+const RGB_AUDIO_SRC = "assets/audio/afraid-to-feel.mp3";
 const CONFETTI_TICK_MS = 120;
 const CONFETTI_BATCH_MIN = 7;
 const CONFETTI_BATCH_MAX = 13;
