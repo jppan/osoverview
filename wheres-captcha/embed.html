@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>where'sCAPTCHA Embed</title>
+  <link rel="stylesheet" href="captcha.css" />
+  <script src="wheresCAPTCHA.js"></script>
+  <style>
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #05060b;
+      display: grid;
+      place-items: center;
+    }
+
+    #wheres-captcha {
+      position: relative;
+      width: min(96vw, 420px);
+    }
+
+    #captcha {
+      width: 100%;
+    }
+
+    #captcha-text {
+      margin-right: 20px;
+    }
+
+    #captcha-popup {
+      margin-left: 0;
+      width: min(96vw, 920px);
+      left: 50%;
+      transform: translateX(-50%);
+      max-height: 95vh;
+    }
+
+    #clickable-zone {
+      width: calc(100% - 14px);
+      max-height: 74vh;
+      height: 74vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="wheres-captcha"></div>
+</body>
+</html>
