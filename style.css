@@ -208,7 +208,8 @@ code,
 
 .theme-rail-wrap {
   border-bottom: 1px solid color-mix(in srgb, var(--border-strong) 22%, transparent);
-  background: color-mix(in srgb, var(--surface-1) 58%, transparent);
+  background: color-mix(in srgb, var(--surface-1) 42%, transparent);
+  backdrop-filter: blur(12px) saturate(120%);
 }
 
 .theme-rail {
@@ -230,7 +231,9 @@ code,
   flex: 0 0 auto;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--border-strong) 26%, transparent);
-  background: color-mix(in srgb, var(--surface-2) 76%, transparent);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 8%, transparent), color-mix(in srgb, var(--accent-2) 8%, transparent)),
+    color-mix(in srgb, var(--surface-2) 52%, transparent);
   color: var(--text-dim);
   padding: 0.35rem 0.62rem 0.35rem 0.42rem;
   font-size: 0.73rem;
@@ -238,6 +241,7 @@ code,
   align-items: center;
   gap: 0.45rem;
   cursor: pointer;
+  backdrop-filter: blur(10px) saturate(120%);
   transition: 120ms ease;
 }
 
@@ -313,11 +317,12 @@ body.rgb-mode .theme-chip-rgb {
 .hero {
   border-radius: var(--radius-lg);
   border: 1px solid color-mix(in srgb, var(--border-strong) 35%, transparent);
-  background: linear-gradient(150deg, color-mix(in srgb, var(--surface-1) 88%, transparent), color-mix(in srgb, var(--surface-2) 94%, transparent));
+  background: linear-gradient(150deg, color-mix(in srgb, var(--surface-1) 62%, transparent), color-mix(in srgb, var(--surface-2) 70%, transparent));
   padding: 1.35rem 1.45rem;
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(14px) saturate(124%);
 }
 
 .hero::before {
@@ -393,8 +398,11 @@ body.rgb-mode .theme-chip-rgb {
 .kpi {
   border-radius: var(--radius-sm);
   border: 1px solid color-mix(in srgb, var(--border-strong) 28%, transparent);
-  background: color-mix(in srgb, var(--surface-2) 58%, transparent);
+  background:
+    linear-gradient(140deg, color-mix(in srgb, var(--accent) 7%, transparent), transparent 55%),
+    color-mix(in srgb, var(--surface-2) 42%, transparent);
   padding: 0.76rem 0.82rem;
+  backdrop-filter: blur(8px) saturate(120%);
   transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
 }
 
@@ -428,23 +436,30 @@ body.rgb-mode .theme-chip-rgb {
   overflow: hidden;
   border-radius: var(--radius);
   border: 1px solid color-mix(in srgb, var(--border-strong) 24%, transparent);
-  background: color-mix(in srgb, var(--surface-1) 90%, transparent);
+  background:
+    linear-gradient(150deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent 56%),
+    linear-gradient(330deg, color-mix(in srgb, var(--accent-2) 10%, transparent), transparent 50%),
+    color-mix(in srgb, var(--surface-1) 62%, transparent);
   padding: 1.14rem 1.2rem 1.16rem;
   box-shadow: 0 9px 26px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px) saturate(125%);
   transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
 .panel::before {
   content: "";
   position: absolute;
-  inset: -1px;
+  inset: -22px;
   pointer-events: none;
   background: linear-gradient(130deg,
-    transparent 20%,
+    transparent 30%,
     color-mix(in srgb, var(--accent) 16%, transparent) 42%,
-    transparent 68%,
+    color-mix(in srgb, var(--accent) 28%, transparent) 50%,
+    transparent 66%,
     color-mix(in srgb, var(--accent-2) 13%, transparent) 82%,
     transparent 100%);
+  border-radius: inherit;
+  filter: blur(12px);
   transform: translateX(-62%);
   opacity: 0;
   transition: transform 540ms ease, opacity 420ms ease;
@@ -460,6 +475,7 @@ body.rgb-mode .theme-chip-rgb {
   border-radius: 50%;
   background: radial-gradient(circle, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%);
   pointer-events: none;
+  filter: blur(10px);
   opacity: 0.28;
   transition: transform 420ms ease, opacity 420ms ease;
 }
@@ -509,21 +525,44 @@ body.rgb-mode .theme-chip-rgb {
 }
 
 .list-item {
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 0.8rem;
   border-radius: 9px;
   padding: 0.54rem 0.7rem;
-  background: color-mix(in srgb, var(--surface-2) 48%, transparent);
+  background:
+    linear-gradient(130deg, color-mix(in srgb, var(--accent) 6%, transparent), transparent 58%),
+    color-mix(in srgb, var(--surface-2) 34%, transparent);
   border: 1px solid color-mix(in srgb, var(--border-strong) 15%, transparent);
+  backdrop-filter: blur(8px) saturate(120%);
   transition: border-color 180ms ease, transform 180ms ease, background 180ms ease;
 }
 
+.list-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 0%, color-mix(in srgb, var(--accent) 26%, transparent) 52%, transparent 100%);
+  transform: translateX(-130%);
+  opacity: 0;
+  transition: transform 460ms ease, opacity 320ms ease;
+}
+
 .list-item:hover {
-  transform: translateX(2px);
+  transform: translateY(-1px) scale(1.01);
   border-color: color-mix(in srgb, var(--accent) 48%, transparent);
-  background: color-mix(in srgb, var(--surface-2) 58%, transparent);
+  background:
+    linear-gradient(130deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 62%),
+    color-mix(in srgb, var(--surface-2) 44%, transparent);
+}
+
+.list-item:hover::before {
+  transform: translateX(130%);
+  opacity: 0.78;
 }
 
 .list-item-key {
@@ -554,21 +593,42 @@ body.rgb-mode .theme-chip-rgb {
 }
 
 .tag {
+  position: relative;
+  overflow: hidden;
   padding: 0.28rem 0.6rem;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--border-strong) 26%, transparent);
-  background: color-mix(in srgb, var(--surface-2) 68%, transparent);
+  background:
+    linear-gradient(130deg, color-mix(in srgb, var(--accent) 7%, transparent), transparent 60%),
+    color-mix(in srgb, var(--surface-2) 44%, transparent);
   color: var(--text-dim);
   font-size: 0.72rem;
   line-height: 1.34;
+  backdrop-filter: blur(8px) saturate(120%);
   transition: transform 180ms ease, box-shadow 220ms ease, color 220ms ease, border-color 220ms ease;
 }
 
+.tag::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 0%, color-mix(in srgb, var(--accent) 32%, transparent) 48%, transparent 100%);
+  transform: translateX(-130%);
+  opacity: 0;
+  transition: transform 420ms ease, opacity 300ms ease;
+}
+
 .tag:hover {
-  transform: translateY(-2px) scale(1.03);
+  transform: translateY(-2px);
   color: var(--text);
   border-color: color-mix(in srgb, var(--accent) 54%, transparent);
-  box-shadow: 0 8px 18px color-mix(in srgb, var(--accent) 24%, transparent);
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.tag:hover::before {
+  transform: translateX(130%);
+  opacity: 0.72;
 }
 
 .kbd {

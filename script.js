@@ -107,7 +107,7 @@ const THEME_ALIASES = {
 };
 
 const RGB_MODE_KEY = "jpOSh-rgb-mode";
-const RGB_CYCLE_MS = 3200;
+const RGB_CYCLE_MS = 2200;
 
 let rgbEnabled = false;
 let rgbIntervalId = null;
