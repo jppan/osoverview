@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jpOSh - Themes</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="themes">
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="brand" href="index.html" aria-label="jpOSh home">
+          <div class="brand-mark">󰣇</div>
+          <div>
+            <div class="brand-title">jpOSh</div>
+            <div class="brand-sub">Theme Accuracy Hub</div>
+          </div>
+        </a>
+        <nav class="main-nav" aria-label="Primary">
+          <a class="nav-link" data-nav="overview" href="index.html">Overview</a>
+          <a class="nav-link" data-nav="themes" href="themes.html">Themes</a>
+          <a class="nav-link" data-nav="automation" href="automation.html">Automation</a>
+          <a class="nav-link" data-nav="workspace" href="workspace.html">Workspace</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="theme-rail-wrap">
+      <div class="theme-rail" data-theme-rail></div>
+    </div>
+
+    <main class="page">
+      <section class="hero" data-animate>
+        <div class="hero-top">
+          <div>
+            <p class="pill">Theme System</p>
+            <h1 class="hero-title">Canonical jpOSh Theme Catalog</h1>
+            <p class="hero-subtitle">
+              This page uses your actual theme palette files and preview screenshots.
+              Active palette: <strong data-current-theme>Tokyo-Night</strong>.
+              Single click any theme apply button to test it globally across all site pages.
+            </p>
+          </div>
+          <div class="panel" style="min-width:240px;">
+            <p class="panel-title">Color Source</p>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key mono">foreground</span><span class="list-item-value">@define-color</span></li>
+              <li class="list-item"><span class="list-item-key mono">background</span><span class="list-item-value">@define-color</span></li>
+              <li class="list-item"><span class="list-item-key mono">accent</span><span class="list-item-value">@define-color</span></li>
+              <li class="list-item"><span class="list-item-key mono">selected-text</span><span class="list-item-value">@define-color</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section data-animate>
+        <h2 class="section-title">Theme Cards</h2>
+        <p class="section-sub">Rendered from theme metadata in <code>script.js</code> and screenshots copied from your jpOSh theme directories.</p>
+        <div id="theme-catalog" class="theme-catalog"></div>
+      </section>
+
+      <section data-animate>
+        <h2 class="section-title">Propagation Matrix</h2>
+        <p class="section-sub">Target apps currently covered by your theme orchestration scripts.</p>
+        <div class="panel">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Target</th>
+                <th>Mechanism</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hyprland + Hyprlock</td>
+                <td class="mono">themes/*/hyprland.conf, hyprlock.conf</td>
+                <td><span class="state-dot state-ok"></span>Live</td>
+              </tr>
+              <tr>
+                <td>Waybar + Mako + Walker</td>
+                <td class="mono">themes/*/waybar.css, mako.ini, walker.css</td>
+                <td><span class="state-dot state-ok"></span>Live</td>
+              </tr>
+              <tr>
+                <td>Alacritty + Ghostty</td>
+                <td class="mono">themes/*/alacritty.toml, ghostty.conf</td>
+                <td><span class="state-dot state-ok"></span>Live</td>
+              </tr>
+              <tr>
+                <td>Neovim + VSCodium</td>
+                <td class="mono">app theme scripts + theme modules</td>
+                <td><span class="state-dot state-ok"></span>Live</td>
+              </tr>
+              <tr>
+                <td>GTK / Qt bridge</td>
+                <td class="mono">gtk3-theme.sh, gtk4-theme.sh, qtct-theme.sh</td>
+                <td><span class="state-dot state-warn"></span>Depends on toolkit app</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section data-animate>
+        <h2 class="section-title">Validation Notes</h2>
+        <div class="panel-grid">
+          <article class="panel">
+            <h3 class="panel-title">Alias Compatibility</h3>
+            <p class="panel-desc">Legacy keys like <code>tokyonight</code>, <code>matteblack</code>, and <code>osakajade</code> are normalized to canonical slugs so older localStorage values still work.</p>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">Derived Surfaces</h3>
+            <p class="panel-desc">Only panel/background shades are derived for readability; core colors are exact copies of your palette definitions.</p>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">Screenshot Provenance</h3>
+            <p class="panel-desc mono">assets/theme-previews/*.webp generated from ~/.local/bin/jpOSh/themes/*/preview.png</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>jpOSh Theme Registry</div>
+      <div class="footer-path mono">~/.local/bin/jpOSh/themes | <span data-year></span></div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

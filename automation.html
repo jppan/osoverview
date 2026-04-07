@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jpOSh - Automation</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="automation">
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="brand" href="index.html" aria-label="jpOSh home">
+          <div class="brand-mark">󰣇</div>
+          <div>
+            <div class="brand-title">jpOSh</div>
+            <div class="brand-sub">Automation and Services</div>
+          </div>
+        </a>
+        <nav class="main-nav" aria-label="Primary">
+          <a class="nav-link" data-nav="overview" href="index.html">Overview</a>
+          <a class="nav-link" data-nav="themes" href="themes.html">Themes</a>
+          <a class="nav-link" data-nav="automation" href="automation.html">Automation</a>
+          <a class="nav-link" data-nav="workspace" href="workspace.html">Workspace</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="theme-rail-wrap">
+      <div class="theme-rail" data-theme-rail></div>
+    </div>
+
+    <main class="page">
+      <section class="hero" data-animate>
+        <div class="hero-top">
+          <div>
+            <p class="pill">Ops Layer</p>
+            <h1 class="hero-title">Display, Power, and Session Automation</h1>
+            <p class="hero-subtitle">
+              Scripted policies coordinate monitor topology, GPU mode transitions,
+              power/performance states, and media/captioning features.
+            </p>
+          </div>
+          <div class="panel" style="min-width:250px;">
+            <p class="panel-title">Service Health</p>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key"><span class="state-dot state-ok"></span>hypridle.service</span><span class="list-item-value">active</span></li>
+              <li class="list-item"><span class="list-item-key"><span class="state-dot state-ok"></span>jpOSh-monitor-watch.service</span><span class="list-item-value">active</span></li>
+              <li class="list-item"><span class="list-item-key"><span class="state-dot state-ok"></span>elephant.service</span><span class="list-item-value">active</span></li>
+              <li class="list-item"><span class="list-item-key"><span class="state-dot state-warn"></span>nvidia-pci-rescan.service</span><span class="list-item-value">on-demand</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section data-animate>
+        <h2 class="section-title">Script Domains</h2>
+        <p class="section-sub">Core scripts grouped by functional ownership.</p>
+        <div class="panel-grid">
+          <article class="panel">
+            <h3 class="panel-title">Power and Display</h3>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key mono">hz-power-sync</span><span class="list-item-value">CPU/EPP/FPS coordination</span></li>
+              <li class="list-item"><span class="list-item-key mono">brightness-amdgpu-bl1</span><span class="list-item-value">brightness + gamma curve</span></li>
+              <li class="list-item"><span class="list-item-key mono">jpOSh-monitor-watch</span><span class="list-item-value">hotplug monitor policy</span></li>
+              <li class="list-item"><span class="list-item-key mono">jpOSh-display-reconcile</span><span class="list-item-value">workspace/display consistency</span></li>
+              <li class="list-item"><span class="list-item-key mono">jpOSh-after-sleep</span><span class="list-item-value">post-suspend recovery</span></li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">GPU and Hardware</h3>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key mono">mux</span><span class="list-item-value">dGPU/iGPU switch path</span></li>
+              <li class="list-item"><span class="list-item-key mono">jpOSh-display-mux-policy</span><span class="list-item-value">mode policy wrapper</span></li>
+              <li class="list-item"><span class="list-item-key mono">touch-nvidia-vulkan</span><span class="list-item-value">Vulkan refresh after switch</span></li>
+              <li class="list-item"><span class="list-item-key mono">trackpad-cursor-toggle</span><span class="list-item-value">input/cursor mode assist</span></li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">Network, Media, Utility</h3>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key mono">proton</span><span class="list-item-value">WireGuard ProtonVPN manager</span></li>
+              <li class="list-item"><span class="list-item-key mono">rekordbox-cmus-sync</span><span class="list-item-value">library sync bridge</span></li>
+              <li class="list-item"><span class="list-item-key mono">media-player-osd</span><span class="list-item-value">playerctl OSD</span></li>
+              <li class="list-item"><span class="list-item-key mono">vocalinux</span><span class="list-item-value">live captioning workflow</span></li>
+              <li class="list-item"><span class="list-item-key mono">osz-autoimport</span><span class="list-item-value">osu! beatmap importer</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section data-animate>
+        <h2 class="section-title">Event Flow</h2>
+        <p class="section-sub">Typical orchestration sequence for login, monitor changes, and theme transitions.</p>
+        <div class="panel-grid">
+          <article class="panel">
+            <h3 class="panel-title">Session Boot</h3>
+            <div class="timeline">
+              <div class="timeline-item">
+                <p class="timeline-title">1. Autostart bootstrap</p>
+                <p class="timeline-desc mono">jpOSh-autostart-boot-sequence</p>
+              </div>
+              <div class="timeline-item">
+                <p class="timeline-title">2. Display prep and reconcile</p>
+                <p class="timeline-desc mono">jpOSh-display-startup-prep -> jpOSh-display-reconcile</p>
+              </div>
+              <div class="timeline-item">
+                <p class="timeline-title">3. Status and daemon surface</p>
+                <p class="timeline-desc mono">Waybar, mako, walker, hypridle</p>
+              </div>
+            </div>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">Monitor Hotplug</h3>
+            <div class="timeline">
+              <div class="timeline-item">
+                <p class="timeline-title">1. Detect topology change</p>
+                <p class="timeline-desc mono">jpOSh-monitor-watch</p>
+              </div>
+              <div class="timeline-item">
+                <p class="timeline-title">2. Restore brightness map</p>
+                <p class="timeline-desc mono">brightness-amdgpu-bl1 integration</p>
+              </div>
+              <div class="timeline-item">
+                <p class="timeline-title">3. Reassign workspaces</p>
+                <p class="timeline-desc mono">jpOSh-display-reconcile</p>
+              </div>
+            </div>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">Theme Apply</h3>
+            <div class="timeline">
+              <div class="timeline-item">
+                <p class="timeline-title">1. Resolve selected profile</p>
+                <p class="timeline-desc mono">jpOSh-theme-set &lt;name&gt;</p>
+              </div>
+              <div class="timeline-item">
+                <p class="timeline-title">2. Update target app configs</p>
+                <p class="timeline-desc mono">Hyprland, Waybar, terminals, toolkit bridge</p>
+              </div>
+              <div class="timeline-item">
+                <p class="timeline-title">3. Reload user-visible components</p>
+                <p class="timeline-desc mono">bar, notifications, launcher, wallpaper state</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>jpOSh Automation Plane</div>
+      <div class="footer-path mono">~/.local/bin | systemd --user | <span data-year></span></div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

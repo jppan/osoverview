@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la ~/.local/bin/*.sh ~/.local/bin/jpOSh-*)",
+      "Bash(python3 -m http.server 8080)",
+      "Bash(echo \"PID: $!\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/)",
+      "Bash(curl -s http://localhost:8080/)",
+      "Bash(kill 102813)",
+      "Bash(python3 -m http.server 8081)",
+      "Bash(kill 103963)",
+      "Bash(curl -s http://localhost:8081/)",
+      "Bash(curl -s http://localhost:8081/script.js)"
+    ]
+  }
+}

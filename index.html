@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jpOSh - Overview</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="overview">
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="brand" href="index.html" aria-label="jpOSh home">
+          <div class="brand-mark">󰣇</div>
+          <div>
+            <div class="brand-title">jpOSh</div>
+            <div class="brand-sub">Arch Linux Workstation</div>
+          </div>
+        </a>
+        <nav class="main-nav" aria-label="Primary">
+          <a class="nav-link" data-nav="overview" href="index.html">Overview</a>
+          <a class="nav-link" data-nav="themes" href="themes.html">Themes</a>
+          <a class="nav-link" data-nav="automation" href="automation.html">Automation</a>
+          <a class="nav-link" data-nav="workspace" href="workspace.html">Workspace</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="theme-rail-wrap">
+      <div class="theme-rail" data-theme-rail></div>
+    </div>
+
+    <main class="page">
+      <section class="hero" data-animate>
+        <div class="hero-top">
+          <div>
+            <p class="pill">Live Profile</p>
+            <h1 class="hero-title">Personal OS Overview for Daily, Dev, and Gaming Flows</h1>
+            <p class="hero-subtitle">
+              This dashboard mirrors the current jpOSh environment: Hyprland orchestration,
+              unified theme propagation, and automation scripts under <code>~/.local/bin</code>.
+              Active web palette: <strong data-current-theme>Tokyo-Night</strong>.
+            </p>
+          </div>
+          <div class="panel" style="min-width:220px;">
+            <p class="panel-title">Host Snapshot</p>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key">Distro</span><span class="list-item-value">Arch Linux</span></li>
+              <li class="list-item"><span class="list-item-key">Kernel</span><span class="list-item-value mono">6.18.20-1-lts</span></li>
+              <li class="list-item"><span class="list-item-key">Init</span><span class="list-item-value">systemd</span></li>
+              <li class="list-item"><span class="list-item-key">Compositor</span><span class="list-item-value">Hyprland</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="kpi-label">Themes Managed</div><div class="kpi-value">8</div></div>
+          <div class="kpi"><div class="kpi-label">Custom Scripts</div><div class="kpi-value">30+</div></div>
+          <div class="kpi"><div class="kpi-label">Terminals</div><div class="kpi-value">Alacritty / Ghostty / Kitty</div></div>
+          <div class="kpi"><div class="kpi-label">Editors</div><div class="kpi-value">Neovim + VSCodium</div></div>
+          <div class="kpi"><div class="kpi-label">Theme Scope</div><div class="kpi-value">GTK, Qt, WM, Bar, Apps</div></div>
+        </div>
+      </section>
+
+      <section data-animate>
+        <h2 class="section-title">Desktop Stack</h2>
+        <p class="section-sub">Primary components and runtime daemons currently defining the session.</p>
+        <div class="panel-grid">
+          <article class="panel">
+            <h3 class="panel-title">Hyprland Runtime</h3>
+            <p class="panel-desc">Modular config set for keybinds, monitor policy, idle behavior, and interface states.</p>
+            <div class="tag-row">
+              <span class="tag mono">keybindings.conf</span>
+              <span class="tag mono">monitors.conf</span>
+              <span class="tag mono">autostart.conf</span>
+              <span class="tag mono">interface.conf</span>
+              <span class="tag mono">hypridle.conf</span>
+            </div>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">Waybar + UI Daemons</h3>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key">Status Bar</span><span class="list-item-value">Waybar (theme-aware CSS)</span></li>
+              <li class="list-item"><span class="list-item-key">Notifications</span><span class="list-item-value">Mako</span></li>
+              <li class="list-item"><span class="list-item-key">Launcher</span><span class="list-item-value">Walker</span></li>
+              <li class="list-item"><span class="list-item-key">On-screen Display</span><span class="list-item-value">swayosd</span></li>
+              <li class="list-item"><span class="list-item-key">Clipboard</span><span class="list-item-value">Clipse</span></li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">Shell + Toolchain</h3>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key">Shell</span><span class="list-item-value">Bash with jpOSh bundle</span></li>
+              <li class="list-item"><span class="list-item-key">Prompt</span><span class="list-item-value">Starship themed modules</span></li>
+              <li class="list-item"><span class="list-item-key">Editor (TUI)</span><span class="list-item-value">Neovim (lazy.nvim)</span></li>
+              <li class="list-item"><span class="list-item-key">Editor (GUI)</span><span class="list-item-value">VSCodium + Sublime Text</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section data-animate>
+        <h2 class="section-title">Theme Framework Summary</h2>
+        <p class="section-sub">Theme values are sourced from your real palette files, not approximations.</p>
+        <div class="panel-grid">
+          <article class="panel">
+            <h3 class="panel-title">Source of Truth</h3>
+            <p class="panel-desc">Palette entries mapped from:</p>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key mono">~/.local/bin/jpOSh/themes/*/palette.css</span><span class="list-item-value">exact hex values</span></li>
+              <li class="list-item"><span class="list-item-key mono">preview.png</span><span class="list-item-value">real desktop previews</span></li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">Propagation Targets</h3>
+            <div class="tag-row">
+              <span class="tag">Hyprland</span>
+              <span class="tag">Waybar</span>
+              <span class="tag">Alacritty</span>
+              <span class="tag">Ghostty</span>
+              <span class="tag">Mako</span>
+              <span class="tag">Walker</span>
+              <span class="tag">GTK 3/4</span>
+              <span class="tag">Qt 5/6</span>
+              <span class="tag">Firefox</span>
+              <span class="tag">Neovim</span>
+            </div>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">Quick Access</h3>
+            <div class="timeline">
+              <div class="timeline-item">
+                <p class="timeline-title mono">jpOSh-theme-current</p>
+                <p class="timeline-desc">Read active theme name from runtime state.</p>
+              </div>
+              <div class="timeline-item">
+                <p class="timeline-title mono">jpOSh-theme-list</p>
+                <p class="timeline-desc">Enumerate installed theme profiles.</p>
+              </div>
+              <div class="timeline-item">
+                <p class="timeline-title mono">jpOSh-theme-set &lt;theme&gt;</p>
+                <p class="timeline-desc">Apply selected profile to all integrated apps.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>jpOSh | Arch Linux | Hyprland | Wayland</div>
+      <div class="footer-path mono">~/.local/bin/jpOSh | ~/.config/hypr | <span data-year></span></div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

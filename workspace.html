@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jpOSh - Workspace</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="workspace">
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="brand" href="index.html" aria-label="jpOSh home">
+          <div class="brand-mark">󰣇</div>
+          <div>
+            <div class="brand-title">jpOSh</div>
+            <div class="brand-sub">Workspace and Hardware</div>
+          </div>
+        </a>
+        <nav class="main-nav" aria-label="Primary">
+          <a class="nav-link" data-nav="overview" href="index.html">Overview</a>
+          <a class="nav-link" data-nav="themes" href="themes.html">Themes</a>
+          <a class="nav-link" data-nav="automation" href="automation.html">Automation</a>
+          <a class="nav-link" data-nav="workspace" href="workspace.html">Workspace</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="theme-rail-wrap">
+      <div class="theme-rail" data-theme-rail></div>
+    </div>
+
+    <main class="page">
+      <section class="hero" data-animate>
+        <div class="hero-top">
+          <div>
+            <p class="pill">Workstation</p>
+            <h1 class="hero-title">Application Map, Keybind Surface, and Device Profile</h1>
+            <p class="hero-subtitle">
+              Launch paths and hardware capabilities tuned for a mixed workflow:
+              development, communication, media management, and gamescope-ready gaming sessions.
+            </p>
+          </div>
+          <div class="panel" style="min-width:240px;">
+            <p class="panel-title">Primary Launchers</p>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key">Walker</span><span class="list-item-value">global launcher</span></li>
+              <li class="list-item"><span class="list-item-key">jpOSh Menu</span><span class="list-item-value">system controls</span></li>
+              <li class="list-item"><span class="list-item-key">Waybar widgets</span><span class="list-item-value">status + quick actions</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section data-animate>
+        <h2 class="section-title">Application Domains</h2>
+        <p class="section-sub">Grouped by primary usage with common launch shortcuts.</p>
+        <div class="panel-grid">
+          <article class="panel">
+            <h3 class="panel-title">Browsers and Communication</h3>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key">Firefox Developer Edition</span><span class="list-item-value"><span class="kbd">Super+B</span></span></li>
+              <li class="list-item"><span class="list-item-key">Vesktop (Discord)</span><span class="list-item-value"><span class="kbd">Super+D</span></span></li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">System and File Tools</h3>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key">Nautilus</span><span class="list-item-value"><span class="kbd">Super+E</span></span></li>
+              <li class="list-item"><span class="list-item-key">btop++</span><span class="list-item-value"><span class="kbd">Super+S</span></span></li>
+              <li class="list-item"><span class="list-item-key">Yazi</span><span class="list-item-value"><span class="kbd">workspace 5</span></span></li>
+              <li class="list-item"><span class="list-item-key">jpOSh System Menu</span><span class="list-item-value"><span class="kbd">Super+Esc</span></span></li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">Media and Utility</h3>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key">cmus / Rekordbox / cava</span><span class="list-item-value">audio stack</span></li>
+              <li class="list-item"><span class="list-item-key">Localsend</span><span class="list-item-value"><span class="kbd">Super+Ctrl+A</span></span></li>
+              <li class="list-item"><span class="list-item-key">Clipse</span><span class="list-item-value"><span class="kbd">Super+Ctrl+C</span></span></li>
+              <li class="list-item"><span class="list-item-key">Vocalinux</span><span class="list-item-value">captioning toggle</span></li>
+              <li class="list-item"><span class="list-item-key">Impala / tickrs</span><span class="list-item-value">network + market glance</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section data-animate>
+        <h2 class="section-title">Hardware Profile</h2>
+        <p class="section-sub">Device characteristics and custom control pathways.</p>
+        <div class="panel-grid">
+          <article class="panel">
+            <h3 class="panel-title">Display</h3>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key">Main Mode</span><span class="list-item-value">3440x1440 ultrawide</span></li>
+              <li class="list-item"><span class="list-item-key">External Support</span><span class="list-item-value">hotplug backup configs</span></li>
+              <li class="list-item"><span class="list-item-key">Backlight Path</span><span class="list-item-value">amdgpu_bl1 + fallback logic</span></li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">GPU Topology</h3>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key">dGPU</span><span class="list-item-value">NVIDIA (MUX switchable)</span></li>
+              <li class="list-item"><span class="list-item-key">iGPU</span><span class="list-item-value">AMD Radeon</span></li>
+              <li class="list-item"><span class="list-item-key">Switching Stack</span><span class="list-item-value">mux + grub + mkinitcpio path</span></li>
+              <li class="list-item"><span class="list-item-key">Vulkan Recovery</span><span class="list-item-value mono">touch-nvidia-vulkan</span></li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">Input and Power</h3>
+            <ul class="list">
+              <li class="list-item"><span class="list-item-key">Trackpad</span><span class="list-item-value">Elan elan0427:00-04f3:3345</span></li>
+              <li class="list-item"><span class="list-item-key">CPU Scaling</span><span class="list-item-value">freq + boost + EPP modes</span></li>
+              <li class="list-item"><span class="list-item-key">Power Sync</span><span class="list-item-value mono">hz-power-sync</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section data-animate>
+        <h2 class="section-title">Gaming Path</h2>
+        <p class="section-sub">Launch and compatibility helpers used for game sessions.</p>
+        <div class="panel-grid">
+          <article class="panel">
+            <h3 class="panel-title">Runtime Tooling</h3>
+            <div class="tag-row">
+              <span class="tag">Lutris</span>
+              <span class="tag">Gamescope</span>
+              <span class="tag">osu! auto-import</span>
+              <span class="tag">GPU MUX utilities</span>
+            </div>
+          </article>
+          <article class="panel">
+            <h3 class="panel-title">Launch Sequence</h3>
+            <div class="timeline">
+              <div class="timeline-item">
+                <p class="timeline-title">1. Set desired GPU mode</p>
+                <p class="timeline-desc mono">mux / jpOSh-display-mux-policy</p>
+              </div>
+              <div class="timeline-item">
+                <p class="timeline-title">2. Validate Vulkan path</p>
+                <p class="timeline-desc mono">touch-nvidia-vulkan</p>
+              </div>
+              <div class="timeline-item">
+                <p class="timeline-title">3. Start game through launcher</p>
+                <p class="timeline-desc">Lutris or direct runtime with gamescope wrapper</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>jpOSh Workspace Profile</div>
+      <div class="footer-path mono">Apps, Keybinds, Hardware | <span data-year></span></div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
