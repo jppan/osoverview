@@ -1042,9 +1042,35 @@ body.lost-mode .theme-catalog {
   grid-template-columns: 1fr;
 }
 
+body.lost-mode .page > section:nth-child(n+2) {
+  display: none !important;
+}
+
+body.lost-mode .hero-subtitle,
+body.lost-mode .section-sub,
+body.lost-mode .panel-desc,
+body.lost-mode .timeline,
+body.lost-mode .table,
+body.lost-mode .kpi-grid,
+body.lost-mode .tag-row,
+body.lost-mode .palette-meta,
+body.lost-mode .theme-source,
+body.lost-mode .footer-path,
+body.lost-mode .list-item-value,
+body.lost-mode code,
+body.lost-mode .kbd {
+  display: none !important;
+}
+
+body.lost-mode .list .list-item:nth-child(n+2) {
+  display: none !important;
+}
+
 body.lost-mode .list-item {
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.4rem;
 }
 
 body.lost-mode .list-item-value {
