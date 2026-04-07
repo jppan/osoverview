@@ -106,6 +106,13 @@ const THEME_ALIASES = {
   osakajade: "osaka-jade",
 };
 
+const RGB_MODE_KEY = "jpOSh-rgb-mode";
+const RGB_CYCLE_MS = 3200;
+
+let rgbEnabled = false;
+let rgbIntervalId = null;
+let rgbIndex = 0;
+
 function hexToRgb(hex) {
   const normalized = hex.replace("#", "").trim();
   const value = normalized.length === 3
@@ -141,7 +148,9 @@ function normalizeThemeName(input) {
   return THEMES[resolved] ? resolved : "tokyo-night";
 }
 
-function applyTheme(themeName) {
+function applyTheme(themeName, options = {}) {
+  const persist = options.persist !== false;
+  const initiatedByRgb = options.initiatedByRgb === true;
   const key = normalizeThemeName(themeName);
   const theme = THEMES[key];
   const root = document.documentElement;
@@ -172,7 +181,12 @@ function applyTheme(themeName) {
   root.style.setProperty("--danger", derived.danger);
 
   document.body.dataset.activeTheme = key;
-  localStorage.setItem("jpOSh-theme", key);
+  if (persist) localStorage.setItem("jpOSh-theme", key);
+
+  if (!initiatedByRgb) {
+    const idx = THEME_ORDER.indexOf(key);
+    rgbIndex = idx >= 0 ? idx : 0;
+  }
 
   document.querySelectorAll("[data-theme-key]").forEach((node) => {
     node.classList.toggle("active", node.dataset.themeKey === key);
@@ -187,9 +201,68 @@ function applyTheme(themeName) {
   });
 }
 
+function updateRgbUi() {
+  document.body.classList.toggle("rgb-mode", rgbEnabled);
+  document.querySelectorAll("[data-rgb-toggle]").forEach((node) => {
+    node.classList.toggle("active", rgbEnabled);
+    node.setAttribute("aria-pressed", rgbEnabled ? "true" : "false");
+    const label = node.querySelector("[data-rgb-label]");
+    if (label) label.textContent = rgbEnabled ? "RGB On" : "RGB";
+  });
+}
+
+function stopRgbCycle() {
+  if (rgbIntervalId) {
+    clearInterval(rgbIntervalId);
+    rgbIntervalId = null;
+  }
+}
+
+function startRgbCycle() {
+  stopRgbCycle();
+  rgbIntervalId = setInterval(() => {
+    rgbIndex = (rgbIndex + 1) % THEME_ORDER.length;
+    applyTheme(THEME_ORDER[rgbIndex], { initiatedByRgb: true, persist: false });
+  }, RGB_CYCLE_MS);
+}
+
+function setRgbMode(enabled, options = {}) {
+  const save = options.save !== false;
+  rgbEnabled = enabled;
+
+  if (save) {
+    localStorage.setItem(RGB_MODE_KEY, rgbEnabled ? "on" : "off");
+  }
+
+  if (rgbEnabled) {
+    const activeKey = normalizeThemeName(document.body.dataset.activeTheme);
+    const idx = THEME_ORDER.indexOf(activeKey);
+    rgbIndex = idx >= 0 ? idx : 0;
+    startRgbCycle();
+  } else {
+    stopRgbCycle();
+    const activeKey = normalizeThemeName(document.body.dataset.activeTheme);
+    localStorage.setItem("jpOSh-theme", activeKey);
+  }
+
+  updateRgbUi();
+}
+
 function renderThemeRail() {
   document.querySelectorAll("[data-theme-rail]").forEach((container) => {
     container.innerHTML = "";
+
+    const rgbButton = document.createElement("button");
+    rgbButton.type = "button";
+    rgbButton.className = "theme-chip theme-chip-rgb";
+    rgbButton.dataset.rgbToggle = "true";
+    rgbButton.setAttribute("aria-pressed", "false");
+    rgbButton.innerHTML = `
+      <span class="theme-dot rgb-dot"></span>
+      <span data-rgb-label>RGB</span>
+    `;
+    rgbButton.addEventListener("click", () => setRgbMode(!rgbEnabled));
+    container.appendChild(rgbButton);
 
     THEME_ORDER.forEach((key) => {
       const theme = THEMES[key];
@@ -300,6 +373,9 @@ function hydrate() {
 
   const saved = localStorage.getItem("jpOSh-theme");
   applyTheme(normalizeThemeName(saved));
+
+  const savedRgb = localStorage.getItem(RGB_MODE_KEY) === "on";
+  setRgbMode(savedRgb, { save: false });
 }
 
 hydrate();
